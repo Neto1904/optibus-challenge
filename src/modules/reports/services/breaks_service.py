@@ -29,6 +29,7 @@ def get_breaks(descriptions_df, vehicles_df, stops_df):
         break_stops_name.extend(stops_descriptions)
         break_start_times.extend(break_times)
 
+
     breaks_info = pd.DataFrame({
         "break_duration": break_duration_list,
         "duty_id": duty_ids_list,
@@ -56,17 +57,17 @@ def get_break_info(dfs):
         if not check_is_sequential(df): 
             continue
         # get time difference and information associated with the break
-        beginning_time = df["end_time"].head(1).values[0]
-        end_time = df["start_time"].tail(1).values[0]
+        first_duty_end_time = df["end_time"].head(1).values[0]
+        second_duty_start_time = df["start_time"].tail(1).values[0]
         duty_id = df["duty_id"].head(1).values[0]
         stop_id = df["destination_stop_id"].head(1).values[0]
-        break_duration = pd.to_datetime(end_time) - pd.to_datetime(beginning_time)
+        break_duration = pd.to_datetime(second_duty_start_time) - pd.to_datetime(first_duty_end_time)
         break_duration_minutes = break_duration.total_seconds() / 60
 
         if break_duration_minutes > 15.00:
             break_durations.append(break_duration_minutes)
             duty_ids.append(duty_id)
             stop_ids.append(stop_id)
-            break_times.append(pd.to_datetime(end_time).time())
+            break_times.append(pd.to_datetime(second_duty_start_time).time())
 
     return break_durations, duty_ids, stop_ids, break_times
