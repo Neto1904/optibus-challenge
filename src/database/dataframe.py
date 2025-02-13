@@ -1,5 +1,4 @@
 import pandas as pd  
-from datetime import timedelta
 import json
 
 def read_dataset(file_path):
@@ -23,7 +22,7 @@ def join_dataframes(df1, df2, key):
 def concat_dataframes(df1, df2):
     return pd.concat([df1, df2], axis=0)
 
-def split_dataframe(df, k):
-    # Split the dataframe into k equal parts
-    smaller_dfs = [df[i:i + k] for i in range(0, len(df), k)]
+def split_dataframe(df, df_sizes):
+    # Split the dataframe into equal parts
+    smaller_dfs = [df[i:i + df_sizes] for i in range(0, len(df), df_sizes)]
     return smaller_dfs
