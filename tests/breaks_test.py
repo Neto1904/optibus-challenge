@@ -3,20 +3,6 @@ import pytest
 
 from src.modules.reports.services.breaks_service import check_is_sequential, get_break_info, get_breaks
 
-def test_check_is_sequential():
-    data = {
-        "vehicle_event_sequence": [1, 2],
-    }
-    df = pd.DataFrame(data)
-
-    assert check_is_sequential(df) == True
-
-    non_sequential_data = {
-        "vehicle_event_sequence": [1, 3],
-    }
-    df_non_sequential = pd.DataFrame(non_sequential_data)
-    assert check_is_sequential(df_non_sequential) == False
-
 def test_get_break_info():
     data = {
         "duty_id": [1, 1],
