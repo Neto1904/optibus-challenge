@@ -20,6 +20,7 @@ def get_duty_times(df):
     duty_vehicles_df = df.copy()
     # Remove rows with missing values in the 'start_time' column
     duty_vehicles_df = duty_vehicles_df.dropna(subset=['start_time'])
+    duty_vehicles_df = duty_vehicles_df.dropna(subset=['end_time'])
     duty_vehicles_df = parse_df_times(duty_vehicles_df)
     # Get the minimum and maximum time for each duty
     min_max_time_df = duty_vehicles_df.groupby("duty_id", as_index=False).agg({
