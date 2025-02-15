@@ -64,5 +64,67 @@ def test_get_duty_times():
     result_df = get_duty_times(df)
     pd.testing.assert_frame_equal(result_df, expected_df)
 
+def test_get_duty_times_with_missing_end_time():
+    data = {
+        "duty_id": [1, 1, 2, 2, 3],
+        "start_time": [
+            "1.08:00:00", 
+            "1.09:00:00", 
+            "2.10:00:00", 
+            "2.11:00:00", 
+            "3.12:00:00"
+        ],
+        "end_time": [
+            "1.08:30:00", 
+            None,  # Missing end_time (should be dropped)
+            "2.10:30:00", 
+            "2.11:30:00", 
+            "3.12:30:00"
+        ],
+    }
+    df = pd.DataFrame(data)
+
+    # Expected output
+    expected_data = {
+        "duty_id": [1, 2, 3],
+        "start_time": [time(8, 0), time(10, 0), time(12, 0)],
+        "end_time": [time(8, 30), time(11, 30), time(12, 30)],
+    }
+
+    expected_df = pd.DataFrame(expected_data)
+    result_df = get_duty_times(df)
+    pd.testing.assert_frame_equal(result_df, expected_df)
+
+def test_get_duty_times_with_missing_start_time():
+    data = {
+        "duty_id": [1, 1, 2, 2, 3],
+        "start_time": [
+            "1.08:00:00", 
+            None,  # Missing start_time (should be dropped)
+            "2.10:00:00", 
+            "2.11:00:00", 
+            "3.12:00:00"
+        ],
+        "end_time": [
+            "1.08:30:00", 
+            "1.09:30:00", 
+            "2.10:30:00", 
+            "2.11:30:00", 
+            "3.12:30:00"
+        ],
+    }
+    df = pd.DataFrame(data)
+
+    # Expected output
+    expected_data = {
+        "duty_id": [1, 2, 3],
+        "start_time": [time(8, 0), time(10, 0), time(12, 0)],
+        "end_time": [time(8, 30), time(11, 30), time(12, 30)],
+    }
+
+    expected_df = pd.DataFrame(expected_data)
+    result_df = get_duty_times(df)
+    pd.testing.assert_frame_equal(result_df, expected_df)
+
 if __name__ == "__main__":
     pytest.main([__file__])
