@@ -37,8 +37,6 @@ def get_start_stop_description(duty_times_df, trips_df, vehicles_df, stops_df):
     descriptions_df = duty_times_df.copy()
     
     # Add columns to dataframe
-    print(first_stops_description)
-    print(last_stops_description)
     descriptions_df["first_stop_description"] = first_stops_description
     descriptions_df["last_stop_description"] = last_stops_description
     return descriptions_df  
