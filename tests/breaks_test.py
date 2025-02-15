@@ -68,5 +68,28 @@ def test_get_breaks():
 
     pd.testing.assert_frame_equal(result_df, expected_df)
 
+def test_get_break_info_with_no_breaks():
+    data = {
+        "duty_id": [1],
+        "start_time": ["2023-10-01 08:00:00"],
+        "end_time": ["2023-10-01 08:30:00"],
+        "destination_stop_id": [1],
+        "vehicle_event_sequence": [1],
+    }
+    df = pd.DataFrame(data)
+    dfs = [df]
+
+    expected_break_durations = []
+    expected_duty_ids = []
+    expected_stop_ids = []
+    expected_break_times = []
+
+    break_durations, duty_ids, stop_ids, break_times = get_break_info(dfs)
+
+    assert break_durations == expected_break_durations
+    assert duty_ids == expected_duty_ids
+    assert stop_ids == expected_stop_ids
+    assert break_times == expected_break_times
+
 if __name__ == "__main__":
     pytest.main([__file__])
