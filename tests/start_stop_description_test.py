@@ -115,6 +115,5 @@ def test_get_start_stop_description_no_stops():
     pd.testing.assert_frame_equal(result_df, expected_df)
 
 
-# Run the tests
 if __name__ == "__main__":
     pytest.main([__file__])
