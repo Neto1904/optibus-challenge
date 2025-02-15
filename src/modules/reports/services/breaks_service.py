@@ -55,11 +55,12 @@ def get_break_info(dfs):
         second_duty_start_time = df["start_time"].tail(1).values[0]
         duty_id = df["duty_id"].head(1).values[0]
         stop_id = df["destination_stop_id"].head(1).values[0]
-        break_duration = pd.to_datetime(second_duty_start_time) - pd.to_datetime(first_duty_end_time)
-        break_duration_minutes = break_duration.total_seconds() / 60
+        interval = pd.to_datetime(second_duty_start_time) - pd.to_datetime(first_duty_end_time)
+        interval_duration_minutes = interval.total_seconds() / 60
 
-        if break_duration_minutes > 15.00:
-            break_durations.append(break_duration_minutes)
+        time_limit = 15.00
+        if interval_duration_minutes > time_limit:
+            break_durations.append(interval_duration_minutes)
             duty_ids.append(duty_id)
             stop_ids.append(stop_id)
             break_times.append(pd.to_datetime(second_duty_start_time).time())
